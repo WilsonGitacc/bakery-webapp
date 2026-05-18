@@ -4,21 +4,6 @@ A premium, modern Laravel & Vite web application designed for bakeries to manage
 
 ---
 
-## ✨ Features & Enhancements (Latest Version)
-
-*   **🐳 Fully Containerized (Docker)**: Complete, zero-configuration stack including PHP 8.2 + Apache, MySQL 8.0, and phpMyAdmin. Just one command to run everything!
-*   **💳 Advanced Checkout System**: Supports three selectable payment channels:
-    *   **Virtual Account (VA)**: Interactive simulated VA transfer.
-    *   **E-Wallet**: Provider selector (GoPay, OVO, DANA, ShopeePay) with mandatory phone number verification (Indonesian format).
-    *   **Bank Transfer**: Directly displays structured bakery account details.
-*   **🏦 Structured Bank Profile**: Restructured bakery database to store bank details in 3 dedicated columns (`bank_name`, `bank_account_number`, `bank_account_name`) for cleaner displays and secure edits.
-*   **📊 Premium Owner Dashboard**:
-    *   Sleek brown-sugar-themed styling aligning with the bakery brand.
-    *   Enlarged, high-contrast action buttons: **＋ Create Order**, **Add Product**, **Flash Sale Rules**, and **Sales Analytics**.
-    *   Live inventory tracker with low-stock warnings and real-time product image thumbnails.
-*   **🏷️ Live Menu & Pre-Ordering**: Public ordering menu (`/menu/morning-crumbs-demo`) with real-time stock updates, automated active discount rules (e.g. *Evening Bread Rescue*), and immediate stock allocation.
-
----
 
 ## 🐳 Option A: Setup using Docker (Recommended & Zero Configuration)
 
@@ -117,16 +102,6 @@ If you prefer to run the application using XAMPP (Apache + MySQL) and local PHP/
 
 ---
 
-## ⚙️ Key Technical Notes
-
-*   **Interactive Checkout Payments**: The payment simulator supports:
-    *   *Virtual Account*: Complete checkout by clicking the "Simulate Payment Successful" button.
-    *   *E-Wallet*: Requires select e-wallet provider (GoPay/OVO/DANA/ShopeePay) and inputting a valid Indonesian phone number starting with `08`.
-    *   *Bank Transfer*: Directly displays the bank name, account name, and account number entered on the bakery settings page.
-*   **Discount Rules**: Active rules (e.g. *Evening Bread Rescue* between `18:00` and `21:00`) apply a `20%` price cut dynamically on categories matching `Bread` on both the public menu card and pre-ordering forms. You can easily tweak rules under the "Flash Sale Rules" dashboard button.
-*   **Low Stock Alert**: Located inside the main Owner Dashboard, it automatically lists products whose current stock has dipped below the set `Reorder Level`. It displays live product image thumbnails for quick identification.
-
----
 
 ## 🛠️ Troubleshooting
 
