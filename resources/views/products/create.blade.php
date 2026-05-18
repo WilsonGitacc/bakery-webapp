@@ -18,7 +18,11 @@
 
                 <div>
                     <label for="category">Category</label>
-                    <input id="category" name="category" type="text" value="{{ old('category', 'Bread') }}" required>
+                    <select id="category" name="category" required>
+                        <option value="Bread" @selected(old('category', 'Bread') == 'Bread')>Bread</option>
+                        <option value="Cake" @selected(old('category') == 'Cake')>Cake</option>
+                        <option value="Pastry" @selected(old('category') == 'Pastry')>Pastry</option>
+                    </select>
                 </div>
 
                 <div>
