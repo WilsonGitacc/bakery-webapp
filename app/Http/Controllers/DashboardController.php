@@ -21,9 +21,9 @@ class DashboardController extends Controller
             'pending_orders' => $bakery->orders()->whereIn('order_status', ['pending', 'baking', 'ready'])->count(),
             'revenue_ledger' => $bakery->revenue_ledger,
             'active_discounts' => $bakery->discountRules()->where('is_active', true)->count(),
-            'custom_cake_requests' => $bakery->customCakeRequests()
-                ->whereDate('pickup_date', '>=', today()->toDateString())
-                ->whereIn('status', ['requested', 'reviewed', 'confirmed'])
+            'custom_cake_requests' => $bakery->orders()
+                ->where('order_type', 'custom_cake')
+                ->whereIn('order_status', ['pending', 'baking', 'ready'])
                 ->count(),
         ];
 

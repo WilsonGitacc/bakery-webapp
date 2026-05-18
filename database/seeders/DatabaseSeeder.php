@@ -35,14 +35,16 @@ class DatabaseSeeder extends Seeder
         $bakery = Bakery::query()->updateOrCreate(
             ['user_id' => $owner->id],
             [
-                'shop_name' => 'Morning Crumbs Bakery',
-                'phone' => '0812-3456-7890',
-                'email' => 'hello@morningcrumbs.test',
-                'address' => 'Jl. Roti Hangat No. 12',
-                'bank_details' => 'Bank BCA - 1234567890 - Morning Crumbs Bakery',
-                'revenue_ledger' => 0,
-                'public_slug' => 'morning-crumbs-demo',
-                'qr_token' => 'morning-crumbs-demo',
+                'shop_name'           => 'Morning Crumbs Bakery',
+                'phone'               => '0812-3456-7890',
+                'email'               => 'hello@morningcrumbs.test',
+                'address'             => 'Jl. Roti Hangat No. 12',
+                'bank_name'           => 'BCA',
+                'bank_account_number' => '1234567890',
+                'bank_account_name'   => 'Morning Crumbs Bakery',
+                'revenue_ledger'      => 0,
+                'public_slug'         => 'morning-crumbs-demo',
+                'qr_token'            => 'morning-crumbs-demo',
             ]
         );
 
@@ -51,6 +53,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Butter Croissant',
                 'category' => 'Pastry',
                 'description' => 'Layered pastry for morning customers.',
+                'image_path' => 'products/croissant.png',
                 'price' => 18000,
                 'stock' => 25,
             ],
@@ -58,6 +61,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Chocolate Bun',
                 'category' => 'Bread',
                 'description' => 'Soft bun with chocolate filling.',
+                'image_path' => 'products/chocolate_bun.png',
                 'price' => 15000,
                 'stock' => 20,
             ],
@@ -65,6 +69,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Strawberry Tart',
                 'category' => 'Cake',
                 'description' => 'Small tart for pre-order pickup.',
+                'image_path' => 'products/strawberry_tart.png',
                 'price' => 22000,
                 'stock' => 12,
             ],
@@ -72,6 +77,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Sourdough Loaf',
                 'category' => 'Bread',
                 'description' => 'Large loaf for daily counter sales.',
+                'image_path' => 'products/sourdough_loaf.png',
                 'price' => 35000,
                 'stock' => 10,
             ],
@@ -86,6 +92,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'category' => $productData['category'],
                     'description' => $productData['description'],
+                    'image_path' => $productData['image_path'] ?? null,
                     'price' => $productData['price'],
                     'is_active' => true,
                 ]

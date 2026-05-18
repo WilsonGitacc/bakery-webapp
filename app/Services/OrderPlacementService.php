@@ -25,11 +25,11 @@ class OrderPlacementService
         return DB::transaction(function () use ($bakery, $data) {
             $items = $this->resolveItems($bakery, $data['quantities'] ?? []);
             $customer = $this->resolveCustomer($bakery, $data);
-            $totalAmount = collect($items)->sum(fn (array $item) => $item['subtotal_item']);
-            $discountTotal = collect($items)->sum(fn (array $item) => $item['discount_total']);
+            $totalAmount = collect($items)->sum(fn(array $item) => $item['subtotal_item']);
+            $discountTotal = collect($items)->sum(fn(array $item) => $item['discount_total']);
             $orderType = $data['order_type'] ?? 'preorder';
-            $pickupTime = ! empty($data['pickup_time']) ? Carbon::parse($data['pickup_time']) : null;
-            $initialStatus = $orderType === 'counter' ? 'completed' : 'pending';
+            $pickupTime = !empty($data['pickup_time']) ? Carbon::parse($data['pickup_time']) : null;
+            $initialStatus = $data['order_status'] ?? ($orderType === 'counter' ? 'completed' : 'pending');
 
             $order = Order::create([
                 'bakery_id' => $bakery->id,
@@ -93,7 +93,7 @@ class OrderPlacementService
     public function expire(Order $order): Order
     {
         return DB::transaction(function () use ($order) {
-            if (! $order->isPreorder()) {
+            if (!$order->isPreorder()) {
                 throw ValidationException::withMessages([
                     'order' => 'Only pre-orders can be expired.',
                 ]);
@@ -134,9 +134,9 @@ class OrderPlacementService
         });
     }
 
-    protected function resolveCustomer(Bakery $bakery, array $data): ?Customer
+    public function resolveCustomer(Bakery $bakery, array $data): ?Customer
     {
-        if (! empty($data['customer_id'])) {
+        if (!empty($data['customer_id'])) {
             return $bakery->customers()
                 ->whereKey($data['customer_id'])
                 ->first();
@@ -187,8 +187,8 @@ class OrderPlacementService
     protected function resolveItems(Bakery $bakery, array $quantities): array
     {
         $selected = collect($quantities)
-            ->map(fn ($value, $key) => ['product_id' => (int) $key, 'quantity' => (int) $value])
-            ->filter(fn (array $item) => $item['quantity'] > 0)
+            ->map(fn($value, $key) => ['product_id' => (int) $key, 'quantity' => (int) $value])
+            ->filter(fn(array $item) => $item['quantity'] > 0)
             ->values();
 
         if ($selected->isEmpty()) {
@@ -211,7 +211,7 @@ class OrderPlacementService
             $product = $products->get($selectedItem['product_id']);
             $inventory = $product?->inventory;
 
-            if (! $product || ! $inventory) {
+            if (!$product || !$inventory) {
                 throw ValidationException::withMessages([
                     'quantities' => 'One of the selected products is no longer available.',
                 ]);
@@ -219,7 +219,7 @@ class OrderPlacementService
 
             if ($inventory->quantity_on_hand < $selectedItem['quantity']) {
                 throw ValidationException::withMessages([
-                    'quantities' => $product->name.' does not have enough stock.',
+                    'quantities' => $product->name . ' does not have enough stock.',
                 ]);
             }
 
@@ -241,10 +241,10 @@ class OrderPlacementService
         return $items;
     }
 
-    protected function makeOrderNumber(): string
+    public function makeOrderNumber(): string
     {
         do {
-            $number = 'ORD-'.now()->format('Ymd').'-'.Str::upper(Str::random(5));
+            $number = 'ORD-' . now()->format('Ymd') . '-' . Str::upper(Str::random(5));
         } while (Order::query()->where('order_number', $number)->exists());
 
         return $number;

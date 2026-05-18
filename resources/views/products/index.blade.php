@@ -19,9 +19,14 @@
             <div class="product-list">
                 @foreach ($products as $product)
                     <article class="product-row">
-                        <div class="product-main">
-                            <strong>{{ $product->name }}</strong>
-                            <p class="product-copy">{{ $product->description ?: 'No product description yet.' }}</p>
+                        <div class="product-main" style="display: flex; gap: 1rem; align-items: center;">
+                            @if ($product->image_path)
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url($product->image_path) }}" alt="{{ $product->name }}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(176, 146, 121, 0.16); flex-shrink: 0;">
+                            @endif
+                            <div>
+                                <strong>{{ $product->name }}</strong>
+                                <p class="product-copy">{{ $product->description ?: 'No product description yet.' }}</p>
+                            </div>
                         </div>
 
                         <div class="product-meta">

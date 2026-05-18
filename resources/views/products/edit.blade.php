@@ -7,7 +7,7 @@
             <p class="muted">Update the product details here. Stock count is managed on the Inventory page.</p>
         </div>
 
-        <form action="{{ route('products.update', $product) }}" method="POST" class="stack">
+        <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data" class="stack">
             @csrf
             @method('PUT')
 
@@ -26,6 +26,19 @@
                     <label for="price">Price</label>
                     <input id="price" name="price" type="number" min="0" step="0.01" value="{{ old('price', $product->price) }}" required>
                 </div>
+            </div>
+            
+            <div class="form-grid">
+                <div>
+                    <label for="image">Replace Image (Optional)</label>
+                    <input id="image" name="image" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" style="background: var(--paper); padding: 0.6rem; width: 100%;">
+                </div>
+                @if($product->image_path)
+                    <div>
+                        <label>Current Image</label>
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($product->image_path) }}" alt="{{ $product->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 12px; display: block; border: 1px solid rgba(176, 146, 121, 0.16);">
+                    </div>
+                @endif
             </div>
 
             <div>

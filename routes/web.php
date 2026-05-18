@@ -33,6 +33,9 @@ Route::post('/menu/{bakery:public_slug}/orders', [PublicMenuController::class, '
 Route::get('/menu/{bakery:public_slug}/custom-cake', [PublicMenuController::class, 'showCustomCake'])->name('menu.custom-cake.show');
 Route::post('/menu/{bakery:public_slug}/custom-cake', [PublicMenuController::class, 'storeCustomCake'])->name('menu.custom-cake.store');
 
+Route::get('/menu/{bakery:public_slug}/payment/{order}', [\App\Http\Controllers\PaymentController::class, 'show'])->name('menu.payment.show');
+Route::post('/menu/{bakery:public_slug}/payment/{order}', [\App\Http\Controllers\PaymentController::class, 'process'])->name('menu.payment.process');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -49,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/discounts', [DiscountRuleController::class, 'index'])->name('discounts.index');
     Route::post('/discounts', [DiscountRuleController::class, 'store'])->name('discounts.store');
     Route::patch('/discounts/{discountRule}', [DiscountRuleController::class, 'update'])->name('discounts.update');
+    Route::delete('/discounts/{discountRule}', [DiscountRuleController::class, 'destroy'])->name('discounts.destroy');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
