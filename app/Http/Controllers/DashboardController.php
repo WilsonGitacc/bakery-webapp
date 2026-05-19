@@ -7,8 +7,12 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index()
     {
+        if (auth()->user()->is_platform_admin) {
+            return redirect()->route('platform.dashboard');
+        }
+
         $bakery = $this->currentBakery();
         $completedOrders = $bakery->orders()
             ->where('order_status', 'completed')

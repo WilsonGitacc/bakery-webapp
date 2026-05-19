@@ -55,7 +55,20 @@ class OrderPlacementService
             }
 
             if ($orderType === 'counter') {
-                $bakery->increment('revenue_ledger', $order->total_amount);
+                $gross = $order->total_amount;
+                $platformCut = round($gross * 0.03, 2);
+                $bakerySettlement = round($gross - $platformCut, 2);
+
+                $bakery->increment('revenue_ledger', $bakerySettlement);
+
+                \App\Models\PlatformLedger::create([
+                    'order_id' => $order->id,
+                    'bakery_id' => $bakery->id,
+                    'gross_amount' => $gross,
+                    'platform_cut' => $platformCut,
+                    'bakery_settlement' => $bakerySettlement,
+                    'source' => 'counter',
+                ]);
             }
 
             return $order->load(['customer', 'items.product']);
@@ -81,7 +94,21 @@ class OrderPlacementService
 
             if ($status === 'completed') {
                 $order->fulfilled_at = now();
-                $order->bakery()->increment('revenue_ledger', $order->total_amount);
+
+                $gross = $order->total_amount;
+                $platformCut = round($gross * 0.03, 2);
+                $bakerySettlement = round($gross - $platformCut, 2);
+
+                $order->bakery()->increment('revenue_ledger', $bakerySettlement);
+
+                \App\Models\PlatformLedger::create([
+                    'order_id' => $order->id,
+                    'bakery_id' => $order->bakery_id,
+                    'gross_amount' => $gross,
+                    'platform_cut' => $platformCut,
+                    'bakery_settlement' => $bakerySettlement,
+                    'source' => $order->order_type,
+                ]);
             }
 
             $order->save();

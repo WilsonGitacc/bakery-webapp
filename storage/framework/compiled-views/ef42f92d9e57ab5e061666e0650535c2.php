@@ -1373,15 +1373,19 @@
                 </div>
                 <nav class="nav">
                     <?php if(auth()->guard()->check()): ?>
-                        <a href="<?php echo e(route('dashboard')); ?>">Dashboard</a>
-                        <a href="<?php echo e(route('products.index')); ?>">Products</a>
-                        <a href="<?php echo e(route('inventories.index')); ?>">Inventory</a>
-                        <a href="<?php echo e(route('customers.index')); ?>">Customers</a>
-                        <a href="<?php echo e(route('orders.index')); ?>">Orders</a>
-                        <a href="<?php echo e(route('discounts.index')); ?>">Discounts</a>
-                        <a href="<?php echo e(route('analytics.index')); ?>">Analytics</a>
-                        <a href="<?php echo e(route('production-reports.index')); ?>">Reports</a>
-                        <a href="<?php echo e(route('bakery.edit')); ?>">Bakery</a>
+                        <?php if(auth()->user()->is_platform_admin): ?>
+                            <a href="<?php echo e(route('platform.dashboard')); ?>" style="background: linear-gradient(135deg, #1d3557, #457b9d); border-color: transparent;">Platform Admin</a>
+                        <?php else: ?>
+                            <a href="<?php echo e(route('dashboard')); ?>">Dashboard</a>
+                            <a href="<?php echo e(route('products.index')); ?>">Products</a>
+                            <a href="<?php echo e(route('inventories.index')); ?>">Inventory</a>
+                            <a href="<?php echo e(route('customers.index')); ?>">Customers</a>
+                            <a href="<?php echo e(route('orders.index')); ?>">Orders</a>
+                            <a href="<?php echo e(route('discounts.index')); ?>">Discounts</a>
+                            <a href="<?php echo e(route('analytics.index')); ?>">Analytics</a>
+                            <a href="<?php echo e(route('production-reports.index')); ?>">Reports</a>
+                            <a href="<?php echo e(route('bakery.edit')); ?>">Bakery</a>
+                        <?php endif; ?>
                         <form action="<?php echo e(route('logout')); ?>" method="POST">
                             <?php echo csrf_field(); ?>
                             <button type="submit">Logout</button>

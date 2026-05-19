@@ -16,7 +16,11 @@
 
                 <div>
                     <label for="category">Category</label>
-                    <input id="category" name="category" type="text" value="<?php echo e(old('category', 'Bread')); ?>" required>
+                    <select id="category" name="category" required>
+                        <option value="Bread" <?php if(old('category', 'Bread') == 'Bread'): echo 'selected'; endif; ?>>Bread</option>
+                        <option value="Cake" <?php if(old('category') == 'Cake'): echo 'selected'; endif; ?>>Cake</option>
+                        <option value="Pastry" <?php if(old('category') == 'Pastry'): echo 'selected'; endif; ?>>Pastry</option>
+                    </select>
                 </div>
 
                 <div>

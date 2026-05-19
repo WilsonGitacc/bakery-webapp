@@ -11,7 +11,6 @@ This is the fastest and cleanest way to run the web application. You do **not** 
 
 ### Prerequisites:
 1. Make sure **Docker Desktop** is installed and running on your computer. Download: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
-2. Ensure you have the seed product images ready by running `php copy_images.php` (if running locally beforehand) or letting our seeder copy them.
 
 ### Running the App:
 1. Open your terminal (PowerShell, Command Prompt, or Git Bash) inside the project folder.

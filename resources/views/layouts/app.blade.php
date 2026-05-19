@@ -1373,15 +1373,19 @@
                 </div>
                 <nav class="nav">
                     @auth
-                        <a href="{{ route('dashboard') }}">Dashboard</a>
-                        <a href="{{ route('products.index') }}">Products</a>
-                        <a href="{{ route('inventories.index') }}">Inventory</a>
-                        <a href="{{ route('customers.index') }}">Customers</a>
-                        <a href="{{ route('orders.index') }}">Orders</a>
-                        <a href="{{ route('discounts.index') }}">Discounts</a>
-                        <a href="{{ route('analytics.index') }}">Analytics</a>
-                        <a href="{{ route('production-reports.index') }}">Reports</a>
-                        <a href="{{ route('bakery.edit') }}">Bakery</a>
+                        @if(auth()->user()->is_platform_admin)
+                            <a href="{{ route('platform.dashboard') }}" style="background: linear-gradient(135deg, #1d3557, #457b9d); border-color: transparent;">Platform Admin</a>
+                        @else
+                            <a href="{{ route('dashboard') }}">Dashboard</a>
+                            <a href="{{ route('products.index') }}">Products</a>
+                            <a href="{{ route('inventories.index') }}">Inventory</a>
+                            <a href="{{ route('customers.index') }}">Customers</a>
+                            <a href="{{ route('orders.index') }}">Orders</a>
+                            <a href="{{ route('discounts.index') }}">Discounts</a>
+                            <a href="{{ route('analytics.index') }}">Analytics</a>
+                            <a href="{{ route('production-reports.index') }}">Reports</a>
+                            <a href="{{ route('bakery.edit') }}">Bakery</a>
+                        @endif
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit">Logout</button>

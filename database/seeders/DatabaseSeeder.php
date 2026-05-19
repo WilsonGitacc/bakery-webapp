@@ -32,6 +32,15 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        $admin = User::query()->updateOrCreate(
+            ['email' => 'admin@bakery.test'],
+            [
+                'name' => 'Platform Admin',
+                'password' => Hash::make('password'),
+                'is_platform_admin' => true,
+            ]
+        );
+
         $bakery = Bakery::query()->updateOrCreate(
             ['user_id' => $owner->id],
             [
@@ -225,8 +234,19 @@ class DatabaseSeeder extends Seeder
         }
 
         $bakery->update([
-            'revenue_ledger' => 33000,
+            'revenue_ledger' => 32010, // 97% of 33000
         ]);
+
+        \App\Models\PlatformLedger::query()->updateOrCreate(
+            ['order_id' => $completedOrder->id],
+            [
+                'bakery_id' => $bakery->id,
+                'gross_amount' => 33000,
+                'platform_cut' => 990,
+                'bakery_settlement' => 32010,
+                'source' => 'counter',
+            ]
+        );
 
         CustomCakeRequest::query()->updateOrCreate(
             [

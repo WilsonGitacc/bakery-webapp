@@ -11,6 +11,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductionReportController;
 use App\Http\Controllers\PublicMenuController;
+use App\Http\Controllers\PlatformController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/landing', 'landing-showcase')->name('landing');
@@ -37,6 +38,7 @@ Route::get('/menu/{bakery:public_slug}/payment/{order}', [\App\Http\Controllers\
 Route::post('/menu/{bakery:public_slug}/payment/{order}', [\App\Http\Controllers\PaymentController::class, 'process'])->name('menu.payment.process');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/platform/dashboard', [PlatformController::class, 'dashboard'])->name('platform.dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/bakery/edit', [BakeryController::class, 'edit'])->name('bakery.edit');
